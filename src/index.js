@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { useState } from "react";
-import { Router, Route, Link } from "react-router";
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 
 import "./styles.css";
 
@@ -18,61 +18,21 @@ function Box3() {
 }
 
 function App() {
-  // let hash = window.location.hash;
-  // let initUi = hash === "#register" ? "register" : "login";
-  let pathName = window.location.pathname;
-  let initUi = ""; //pathName === "/register" ? "/register" : "/login";
-  switch (pathName) {
-    case "/register":
-      initUi = "register";
-      break;
-    case "login":
-      initUi = "login";
-      break;
-    case "wellcom":
-      initUi = "welcome";
-      break;
-    default:
-      initUi = "login";
-  }
-  let [ui, setUi] = useState(initUi);
-  let onClickLogin = () => {
-    setUi("login");
-    // window.location.hash = "login";
-    window.history.pushState(null, "", "/login");
-  };
-  let onClickRegister = () => {
-    setUi("register");
-    // window.location.hash = "register";
-    window.history.pushState(null, "", "/register");
-  };
-  let onClickWellcome = () => {
-    setUi("welcome");
-    // window.location.hash = "register";
-    window.history.pushState(null, "", "/welcome");
-  };
-
-  let showUi = () => {
-    switch (ui) {
-      case "login":
-        return <Box2 />;
-      case "register":
-        return <Box1 />;
-      case "welcome":
-        return <Box3 />;
-      default:
-        return <Box1 />;
-    }
-  };
-  return (
-    <div className="App">
-      <button onClick={onClickLogin}>登录</button>
-      <button onClick={onClickRegister}>注册</button>
-      <button onClick={onClickWellcome}>欢迎</button>
-      <div>{showUi()}</div>
-    </div>
-  );
+  return <div className="App">APP</div>;
+  // return <div>APP</div>;
 }
 
 const rootElement = document.getElementById("root");
-ReactDOM.render(<App />, rootElement);
+ReactDOM.render(
+  <Router>
+    <div>
+      <Link to="/">首页</Link> |<Link to="/login">登录</Link> |
+      <Link to="/register">注册</Link> |<Link to="/wellcome">欢迎</Link>
+      <Route path="/" exact component={App} />
+      <Route path="/login" component={Box2} />
+      <Route path="/register" component={Box1} />
+      <Route path="/wellcome" component={Box3} />
+    </div>
+  </Router>,
+  rootElement
+);
